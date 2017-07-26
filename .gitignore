@@ -1,5 +1,7 @@
 #password
 password.json*
+auth.json
+client_secret*
 
 # Logs
 logs
