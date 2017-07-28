@@ -42,7 +42,7 @@ app.get('/auth/google/callback',
     failureRedirect: '/login'
   }),
   function (req, res) {
-    res.redirect('http://iankit3.github.io');
+    res.redirect('https://mailatnodemailer.herokuapp.com/partials/test.html');
   });
 // send to google to do the authentication
 app.get('/connect/google', passport.authorize('google', { scope: ['profile', 'email'] }));
