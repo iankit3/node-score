@@ -19,7 +19,7 @@ function executeQuery(q,callback){
 
    const query = client.query(q);
 
-         query.on('row', (row) => {)
+         query.on('row', (row) => {
              rows.push(row);
              callback(null, {rows: row});
 	     });          
