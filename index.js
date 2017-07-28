@@ -24,7 +24,7 @@ var authConfig = require('./config/auth'),
         return done(null, profile);
       }
     ));
-
+app.set('port', (process.env.PORT || 9999) );
 app.use(cookieParser());
 app.use(session({ secret: 'node man', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
@@ -57,6 +57,6 @@ app.get('/connect/google/callback',
 app.use(express.static("public"));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist/'));
 
-app.listen(9999, () => {
-  console.info("Listening on port 9999")
+app.listen(app.get("port"), () => {
+  console.info("Listening on port +"+ app.get("port") );
 });

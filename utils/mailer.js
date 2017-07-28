@@ -1,6 +1,11 @@
 const password = require("../password");
 const nodemailer = require('nodemailer');
 // create reusable transporter object using the default SMTP transport
+
+if(process.env.NODE_ENV == "production"){
+  password = {mail:process.env.mail}
+}
+
 let transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
