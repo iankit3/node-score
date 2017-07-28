@@ -20,6 +20,6 @@
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
-    "pg": "^7.0.2"
+    "pg": "^6.2.4"
   }
 }
