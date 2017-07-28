@@ -4,23 +4,20 @@ var db = require('../database/database');
 const jwt = require("jsonwebtoken");
 const mailer = require("../utils/mailer").mailer;
 
-function decrypt(token){
-    var tk = jwt.verify(token,'lovely secret',{complete:false});
-    console.log(tk);
-    return tk.email
-}
-
 router.get("/magic", (req, res) => {
     var token = req.param.token;
     var email;
     jwt.verify(req.query.token, 'lovely secret', (err, decoded) => {
         email = decoded.email;
-        var q = "SELECT * from interviewees WHERE email=" + email;
-        console.log("Q : " + q);
-        var result = db.executeQuery(q);
-        console.log(result)
-        if ( true )res.sendFile('/public/partials/test.html');
-        else res.sendFile('/public/partials/404.html');
+       
+        res.cookie("token_email",email);
+        // if ( true )res.sendFile('/public/partials/test.html');
+        // else res.sendFile('/public/partials/404.html');
+         var cookie_email = req.cookies.token_email;
+         var google_email = req.cookies.google_email;
+  
+        if(cookie_email == google_email) res.sendFile('/public/partials/test.html');
+
     })
 
 })
@@ -29,6 +26,15 @@ router.get("/myuser", (req, res) => {
   var email = jwt.verify(req.query.token, 'lovely secret', (err, decoded) => {
     console.log(decoded);
   })
+
+  var cookie_email = req.cookies.token_email;
+  var google_email = req.cookies.google_email;
+
+      //  var q = "SELECT * from interviewees WHERE email=" + email;
+      //   console.log("Q : " + q);
+      //   var result = db.executeQuery(q);
+  if(cookie_email == google_email) res.sendFile('/public/partials/test.html');
+
 })
 
 router.post("/login", (req, res) => {

@@ -20,6 +20,7 @@ var authConfig = require('./config/auth'),
       authConfig.google,
       function (accessToken, refreshToken, profile, done) {
         console.log(profile.emails[0].value);
+        res.cookie("google_email",email);
         return done(null, profile);
       }
     ));
