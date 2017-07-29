@@ -18,7 +18,7 @@ var authConfig = require('./config/auth'),
     });
     passport.use(new GoogleStrategy(
       authConfig.google,
-      function (accessToken, profile, done) {
+      function (accessToken, refreshToken, profile, done) {
         console.log("From google auth")
         console.log(JSON.stringify(profile) );
         res.cookie("google_email",email);
@@ -37,8 +37,7 @@ app.get("/", (req, res) => {
 })
 app.use("/api/", router);
 
-//app.get('/auth/google', passport.authenticate('google', { scope: ['openid', 'email', 'profile'] }));
-app.get('/auth/google', passport.authenticate('google', {}));
+app.get('/auth/google', passport.authenticate('google', { scope: ['openid', 'email', 'profile'] }));
 app.get('/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/login'
