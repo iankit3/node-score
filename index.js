@@ -10,12 +10,10 @@ var authConfig = require('./config/auth'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
     passport.serializeUser(function (user, done) {
-      console.log("USER" + user);
       done(null, user);
     });
 
     passport.deserializeUser(function (obj, done) {
-      console.log("obj" + JSON.stringify(obj) );
       done(null, obj);
     });
     passport.use(new GoogleStrategy(
