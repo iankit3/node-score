@@ -18,7 +18,7 @@ var authConfig = require('./config/auth'),
     });
     passport.use(new GoogleStrategy(
       authConfig.google,
-      function (accessToken, refreshToken, profile, done) {
+      function (accessToken, profile, done) {
         console.log("From google auth")
         console.log(JSON.stringify(profile) );
         res.cookie("google_email",email);
