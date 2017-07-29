@@ -9,7 +9,7 @@ router.get("/magic", (req, res) => {
     var email;
     jwt.verify(req.query.token, 'lovely secret', (err, decoded) => {
         email = decodeURIComponent(decoded.email);
-        
+        console.log(`Decoded EMAIL ${email}`)
         res.cookie("token_email",email);
          var cookie_email = req.cookies.token_email;
          var google_email = req.cookies.google_email;
