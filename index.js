@@ -42,7 +42,7 @@ app.get('/auth/google/callback',
     failureRedirect: '/login'
   }),
   function (req, res) {
-    res.cookie("google_email",profile.emails[0].value);
+    res.cookie("google_email",req.user.emails[0].value);
 
     if(req.user.emails[0].value == req.cookies.token_email)
       res.redirect('https://mailatnodemailer.herokuapp.com/myuser');  
