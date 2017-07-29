@@ -31,7 +31,8 @@ router.get("/myuser", (req, res) => {
       //  var q = "SELECT * from interviewees WHERE email=" + email;
       //   console.log("Q : " + q);
       //   var result = db.executeQuery(q);
-  if(cookie_email == google_email) res.sendFile('/public/partials/test.html');
+  res.end("TREY");
+  //if(cookie_email == google_email) res.sendFile('/public/partials/test.html');
 
 })
 

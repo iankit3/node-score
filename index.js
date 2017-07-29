@@ -10,41 +10,37 @@ var authConfig = require('./config/auth'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
     passport.serializeUser(function (user, done) {
+      console.log("USER" + user);
       done(null, user);
     });
 
     passport.deserializeUser(function (obj, done) {
+      console.log("obj" + JSON.stringify(obj) );
       done(null, obj);
     });
     passport.use(new GoogleStrategy(
       authConfig.google,
       function (accessToken, refreshToken, profile, done) {
-        process.nextTick(function() {
-          console.log("From google auth")
-          console.log(JSON.stringify(profile) );
-          res.cookie("google_email",email);
-          return done(null, profile);
-        })
+        console.log("tk" + accessToken);
+        // console.log("From google auth")
+        // console.log(JSON.stringify(profile) );
+        // res.cookie("google_email",email);
+        // return done(null, profile);
       }
     ));
 app.set('port', (process.env.PORT || 9999) );
 app.use(cookieParser());
 app.use(session({ secret: 'node man', resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/partials/index.html")
 })
 app.use("/api/", router);
 
-app.get('/auth/google', passport.authenticate('google', { 
-  scope: [
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/userinfo.email'
-    ]
- }));
+app.get('/auth/google', passport.authenticate('google', { scope: ['openid', 'email', 'profile'] }));
 app.get('/auth/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/login'
