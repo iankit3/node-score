@@ -43,7 +43,7 @@ app.get('/auth/google/callback',
     failureRedirect: '/login'
   }),
   function (req, res) {
-    console.log("REQ-USER"+ JSON.stringify(req["user"]);
+    console.log("REQ-USER"+ JSON.stringify(req["user"]) );
     res.redirect('https://mailatnodemailer.herokuapp.com/myuser');
   });
 
