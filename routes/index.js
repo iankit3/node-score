@@ -15,6 +15,7 @@ router.get("/magic", (req, res) => {
          var google_email = req.cookies.google_email;
   
         if(cookie_email == google_email) res.sendFile('/public/partials/test.html');
+        else res.end("---------XXXXXXXXXX--------")
 
     })
 
