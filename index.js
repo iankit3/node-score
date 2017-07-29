@@ -10,7 +10,9 @@ var authConfig = require('./config/auth'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
     passport.serializeUser(function (user, done) {
-      done(null, user);
+      done(null, {
+         email: user.emails[0].value
+      });
     });
 
     passport.deserializeUser(function (obj, done) {
@@ -19,7 +21,7 @@ var authConfig = require('./config/auth'),
     passport.use(new GoogleStrategy(
       authConfig.google,
       function (accessToken, refreshToken, profile, done) {
-        res.cookie("google_email",email);
+        res.cookie("google_email",profile.emails[0].value);
         return done(null, profile);
       }
     ));
