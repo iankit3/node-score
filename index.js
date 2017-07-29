@@ -21,7 +21,6 @@ var authConfig = require('./config/auth'),
     passport.use(new GoogleStrategy(
       authConfig.google,
       function (accessToken, refreshToken, profile, done) {
-        //res.cookie("google_email",profile.emails[0].value);
         return done(null, profile);
       }
     ));
@@ -43,8 +42,13 @@ app.get('/auth/google/callback',
     failureRedirect: '/login'
   }),
   function (req, res) {
-    console.log("REQ-USER"+ JSON.stringify(req["user"]) );
-    res.redirect('https://mailatnodemailer.herokuapp.com/myuser');
+    res.cookie("google_email",profile.emails[0].value);
+
+    if(req.user.emails[0].value == req.cookies.token_email)
+      res.redirect('https://mailatnodemailer.herokuapp.com/myuser');  
+    else 
+      res.end("Email mismatch");
+    
   });
 
 app.use(express.static("public"));
