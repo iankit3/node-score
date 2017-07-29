@@ -44,6 +44,8 @@ app.get('/auth/google/callback',
   function (req, res) {
     res.redirect('https://mailatnodemailer.herokuapp.com/partials/test.html');
   });
+
+/*
 // send to google to do the authentication
 app.get('/connect/google', passport.authorize('google', { scope: ['profile', 'email'] }));
 
@@ -53,6 +55,7 @@ app.get('/connect/google/callback',
     successRedirect: '/profile',
     failureRedirect: '/'
   }));
+*/
 
 app.use(express.static("public"));
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist/'));
