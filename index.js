@@ -26,10 +26,11 @@ var authConfig = require('./config/auth'),
     ));
 app.set('port', (process.env.PORT || 9999) );
 app.use(cookieParser());
-app.use(session({ secret: 'node man', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'node man ', resave: false, saveUninitialized: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/partials/index.html")

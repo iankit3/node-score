@@ -11,7 +11,7 @@ const mailer = require("../utils/mailer").mailer;
 function checkAuthentication(req,res,next){
   console.log(`
     req.isAuthenticated() : ${req.isAuthenticated()} \n
-    areCookiesEqual = ${req.cookies.token == req.cookies.google_email}
+    areCookiesEqual = ${req.cookies.token_email == req.cookies.google_email}
   `);
   console.log(`
       ${req.user}
