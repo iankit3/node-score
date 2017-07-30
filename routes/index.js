@@ -9,12 +9,19 @@ const mailer = require("../utils/mailer").mailer;
 // });
 
 function checkAuthentication(req,res,next){
+  console.log(`
+    req.isAuthenticated() : ${req.isAuthenticated()} \n
+    areCookiesEqual = ${req.cookies.token == req.cookies.google_email}
+  `);
+  console.log(`
+      ${req.user}
+    `)
     if( (req.isAuthenticated()) &&
          (req.cookies.token_email == req.cookies.google_email)){
         //if user is looged in, req.isAuthenticated() will return true 
         next();
     } else{
-        res.redirect("/login");
+        res.redirect("/");
     }
 }
 
