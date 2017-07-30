@@ -39,7 +39,7 @@ app.use("/api/", router);
 app.get('/auth/google', passport.authenticate('google', { scope: ['openid', 'email', 'profile'] }));
 app.get('/auth/google/callback',
   passport.authenticate('google', {
-    failureRedirect: '/login'
+    failureRedirect: '/'
   }),
   function (req, res) {
     res.cookie("google_email",req.user.emails[0].value);
