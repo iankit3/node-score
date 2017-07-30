@@ -28,7 +28,7 @@ router.get("/magic", (req, res) => {
          var cookie_email = req.cookies.token_email;
          var google_email = req.cookies.google_email;
   
-        res.redirect("/api/test");
+        res.redirect("/");
 
     })
 
