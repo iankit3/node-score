@@ -45,7 +45,7 @@ app.get('/auth/google/callback',
     res.cookie("google_email",req.user.emails[0].value);
 
     if(req.user.emails[0].value == req.cookies.token_email)
-      res.redirect('https://mailatnodemailer.herokuapp.com/api/myuser');  
+      res.redirect('/api/myuser');  
     else 
       res.end("Email mismatch");
     

@@ -4,6 +4,20 @@ var db = require('../database/database');
 const jwt = require("jsonwebtoken");
 const mailer = require("../utils/mailer").mailer;
 
+// app.get('/some_path',checkAuthentication,function(req,res){
+//     //do something only if user is authenticated
+// });
+
+function checkAuthentication(req,res,next){
+    if( (req.isAuthenticated()) &&
+         (req.cookies.token_email == req.cookies.google_email)){
+        //if user is looged in, req.isAuthenticated() will return true 
+        next();
+    } else{
+        res.redirect("/login");
+    }
+}
+
 router.get("/magic", (req, res) => {
     var token = req.param.token;
     var email;
@@ -14,27 +28,18 @@ router.get("/magic", (req, res) => {
          var cookie_email = req.cookies.token_email;
          var google_email = req.cookies.google_email;
   
-        if(cookie_email == google_email) res.sendFile(__dirname + '/public/partials/test.html');
-        else res.end("---------XXXXXXXXXX--------")
+        res.redirect("/api/test");
 
     })
 
 })
 
-router.get("/myuser", (req, res) => {
-  var email = jwt.verify(req.query.token, 'lovely secret', (err, decoded) => {
-    console.log(decoded);
-  })
+// router.get("/myuser", (req, res) => {
+//     res.redirect() 
+// })
 
-  var cookie_email = req.cookies.token_email;
-  var google_email = req.cookies.google_email;
-
-      //  var q = "SELECT * from interviewees WHERE email=" + email;
-      //   console.log("Q : " + q);
-      //   var result = db.executeQuery(q);
-  
-  if(cookie_email == google_email) res.sendFile('/public/partials/test.html');
-
+router.get('/test',checkAuthentication, (req,res) => {
+    res.send("Authenticated USER" + req.cookies.google_email)
 })
 
 router.post("/login", (req, res) => {
