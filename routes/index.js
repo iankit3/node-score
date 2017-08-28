@@ -4,6 +4,10 @@ var db = require('../database/database');
 const jwt = require("jsonwebtoken");
 const mailer = require("../utils/mailer").mailer;
 
+/*Require for a Senseforth api*/
+const nodemailer = require('nodemailer');
+
+
 // app.get('/some_path',checkAuthentication,function(req,res){
 //     //do something only if user is authenticated
 // });
@@ -14,7 +18,7 @@ function checkAuthentication(req,res,next){
     areCookiesEqual = ${req.cookies.token_email == req.cookies.google_email}
   `);
   console.log(`
-      ${req.user}
+      ${JSON.stringify(req.user)}
     `)
     if( (req.isAuthenticated()) &&
          (req.cookies.token_email == req.cookies.google_email)){
@@ -64,12 +68,86 @@ router.post("/adduser", (req, res) => {
     subject: 'Hello ✔', // Subject line
     text: 'Hi', // plain text body
     html: `<b>Hi</b> <br><i>Your token is : ' ${token} '</i>
-            <button><a href="http:127.0.0.1:9999/api/magic?token=${token}">Click</a></button>    
+            <a href="https://mailatnodemailer.herokuapp.com/api/magic?token=${token}">Click</a>
           ` // html body
   };
 
   mailer.sendMail(mailOptions,function(info){
       console.log("Mail sent");
+      console.log(info);
+  })
+})
+
+/******--------------For Senseforth-----------------*******/
+var SF_transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // secure:true for port 465, secure:false for port 587
+    auth: {
+        user: "sftestingrealtime@gmail.com",
+        pass: "senseforth@2012"
+    }
+});
+
+function SF_sendEmail(options, callback) {
+    SF_transporter.sendMail(options, (error, info) => {
+        if (error) return console.log(error);
+
+        callback(info);
+    })
+}
+var cuxEmail = "shivang@senseforth.com, nrithya@senseforth.com, sakshi@senseforth.com, saee@senseforth.com, anuja@senseforth.com";
+var suryEmail = "Suryaprakash@senseforth.com"; 
+var numMapping = {
+    "1": "Missing - not added",
+    "2": "Missing",
+    "3": "Wrong Disamb",
+    "4": "Wrong Answer",
+    "5": "No Disamb",
+    "6": "Context Issue",
+    "7": "Spelling Correction",
+    "8": "Rephrase Query",
+    "9": "Missing Variation",
+    "10": "Disamb"
+};
+
+var mapping = { 
+	"1": cuxEmail,
+	"2": cuxEmail,
+	"3": suryEmail,
+	"4": cuxEmail,
+	"5": suryEmail,
+	"6": suryEmail,
+	"7": suryEmail,
+	"8": cuxEmail,
+	"9": cuxEmail,
+	"10": suryEmail
+}
+
+router.post("/sendemail", (req, res) => {
+  var ques = req.body.currentQues;
+  var option = req.body.selectedOption;
+
+  var emails = mapping[option];
+ 
+
+  // setup email data with unicode symbols
+  let mailOptions = {
+    from: '"Senseforth_HDFC_FAQ 👻" <sftestingrealtime@gmail.com>', // sender address
+    to: emails, // list of receivers
+    subject: 'HDFC EVA Issue(Autogen)'+numMapping[option]+'✔', // Subject line
+    text: 'Hi', // plain text body
+    html: `
+                      
+           <div>Issue ${numMapping[option]} raised for ques <b>${ques}</b><br></div>
+      
+           <i>Thank You</i>
+
+          ` // html body
+  };
+
+ SF_sendEmail(mailOptions,function(info){
+      console.log("Sensforth Mail sent");
       console.log(info);
   })
 })
